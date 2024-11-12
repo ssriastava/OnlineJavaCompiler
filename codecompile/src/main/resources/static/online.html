@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Java Compiler</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        #container {
+            display: flex;
+            height: calc(100vh - 50px);
+        }
+        #editor {
+            flex: 1;
+            height: 100%;
+            width: 100%;
+            border-right: 2px solid #ddd;
+        }
+        #output {
+            flex: 1;
+            padding: 10px;
+            overflow: auto;
+            min-width: 200px;
+        }
+        #resizer {
+            width: 5px;
+            cursor: col-resize;
+            background-color: #ccc;
+        }
+        #submitButton {
+            margin: 10px;
+        }
+    </style>
+    <!-- Add Monaco Editor -->
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor/min/vs/loader.js"></script>
+    <script src="http://localhost:8082/sendProgram.js"></script>
+</head>
+<body>
+<button id="submitButton" onclick="sendCode()">Submit Code</button>
+<div id="container">
+    <div id="editor"></div>
+    <div id="resizer"></div>
+    <div id="output" style="background-color: #f1f1f1;">
+        <p>Compiler output will appear here...</p>
+    </div>
+</div>
+
+<script>
+    require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor/min/vs' } });
+    require(['vs/editor/editor.main'], function() {
+        window.editor = monaco.editor.create(document.getElementById('editor'), {
+            value: '//class must be Main \npublic class Main{\n}\n',
+            language: 'java',
+            theme: 'vs-light'
+        });
+    });
+
+    document.getElementById('submitButton').addEventListener('click', function() {
+        const code = window.editor.getValue();
+        console.log(code);  // Handle the code submission here
+    });
+</script>
+</body>
+</html>
